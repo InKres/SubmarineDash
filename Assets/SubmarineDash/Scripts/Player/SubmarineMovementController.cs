@@ -40,10 +40,13 @@ public class SubmarineMovementController : MonoBehaviour
     {
         float targetVelocity = isDiving ? -diveSpeed : riseSpeed;
 
+        float maxDelta = transitionSharpness * Time.fixedDeltaTime * 
+            Mathf.Abs(currentVerticalVelocity - targetVelocity);
+
         currentVerticalVelocity = Mathf.MoveTowards(
             currentVerticalVelocity,
             targetVelocity,
-            transitionSharpness * Time.fixedDeltaTime * Mathf.Abs(currentVerticalVelocity - targetVelocity)
+            maxDelta
         );
 
         rb.velocity = new Vector2(rb.velocity.x, currentVerticalVelocity);

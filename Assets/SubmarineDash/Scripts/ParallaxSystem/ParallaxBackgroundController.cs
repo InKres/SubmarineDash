@@ -67,6 +67,7 @@ public class ParallaxBackgroundController : MonoBehaviour
         {
             UpdateLayerBackgrounds(layer, deltaTime);
             HandleLayerBackgroundPositions(layer);
+            UpdateAllBackgroundsAcceleration();
         }
     }
 
@@ -140,7 +141,7 @@ public class ParallaxBackgroundController : MonoBehaviour
 
     private int CalculateRequiredBackgroundCount(float backgroundWidth)
     {
-        return Mathf.CeilToInt(cameraWidth / backgroundWidth) + 1;
+        return Mathf.CeilToInt(cameraWidth / backgroundWidth) + 2;
     }
 
     private void UpdateAllBackgroundsAcceleration()
