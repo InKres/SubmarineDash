@@ -4,21 +4,28 @@ using UnityEngine;
 public class SubmarineMovementController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float riseSpeed = 1f;
-    [SerializeField] private float diveSpeed = 2f;
-    [SerializeField][Range(1f, 20f)] private float transitionSharpness = 8f;
+    public float riseSpeed = 1f;
+    public float diveSpeed = 2f;
+    [Range(1f, 20f)]
+    public float transitionSharpness = 8f;
 
     [Header("Tilt Settings")]
-    [SerializeField] private float maxTiltAngle = 15f;
-    [SerializeField] private float tiltSpeed = 5f;
+    public float maxTiltAngle = 15f;
+    public float tiltSpeed = 5f;
 
     [Header("Input")]
-    [SerializeField] private KeyCode diveKey = KeyCode.Space;
+    [SerializeField]
+    private KeyCode diveKey = KeyCode.Space;
+
+    [Header("Controller settings")]
+    public bool isCanMove = true;
 
     private Rigidbody2D rb;
+
     private float currentVerticalVelocity;
-    private bool isDiving;
     private float targetRotation;
+
+    private bool isDiving;
 
     private void Awake()
     {
@@ -32,15 +39,18 @@ public class SubmarineMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleTilt();
+        if (isCanMove)
+        {
+            HandleMovement();
+            HandleTilt();
+        }
     }
 
     private void HandleMovement()
     {
         float targetVelocity = isDiving ? -diveSpeed : riseSpeed;
 
-        float maxDelta = transitionSharpness * Time.fixedDeltaTime * 
+        float maxDelta = transitionSharpness * Time.fixedDeltaTime *
             Mathf.Abs(currentVerticalVelocity - targetVelocity);
 
         currentVerticalVelocity = Mathf.MoveTowards(
