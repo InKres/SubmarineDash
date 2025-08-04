@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Возможно стоит переписать так, что этот класс координирует все контроллеры слоев, которые знают какой конкретно слой они контролируют, а не все сразу.
 public class ParallaxBackgroundController : MonoBehaviour
 {
     [System.Serializable]
@@ -16,12 +17,19 @@ public class ParallaxBackgroundController : MonoBehaviour
 
     private Camera mainCamera;
     private float cameraWidth;
-    private bool isScrolling = true;
+    private bool isScrolling;
     private Dictionary<string, List<ParallaxBackground>> backgroundLayers = new Dictionary<string, List<ParallaxBackground>>();
 
-    private void Start()
+    public void Init()
     {
-        InitializeSystem();
+        CacheMainCamera();
+        CalculateCameraWidth();
+        InitializeAllBackgroundLayers();
+    }
+
+    public void Dispose()
+    {
+        backgroundLayers.Clear();
     }
 
     private void Update()
@@ -45,13 +53,6 @@ public class ParallaxBackgroundController : MonoBehaviour
     {
         accelerationFactor = newAcceleration;
         UpdateAllBackgroundsAcceleration();
-    }
-
-    private void InitializeSystem()
-    {
-        CacheMainCamera();
-        CalculateCameraWidth();
-        InitializeAllBackgroundLayers();
     }
 
     private bool IsScrollingDisabled()
@@ -83,6 +84,7 @@ public class ParallaxBackgroundController : MonoBehaviour
             cameraWidth = 0f;
             return;
         }
+
         cameraWidth = 2f * mainCamera.orthographicSize * mainCamera.aspect;
     }
 
