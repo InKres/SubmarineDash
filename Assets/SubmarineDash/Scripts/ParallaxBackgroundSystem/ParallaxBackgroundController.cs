@@ -17,7 +17,7 @@ public class ParallaxBackgroundController : MonoBehaviour
 
     private Camera mainCamera;
     private float cameraWidth;
-    private bool isScrolling;
+    //private bool isScrolling;
     private Dictionary<string, List<ParallaxBackground>> backgroundLayers = new Dictionary<string, List<ParallaxBackground>>();
 
     public void Init()
@@ -34,30 +34,15 @@ public class ParallaxBackgroundController : MonoBehaviour
 
     private void Update()
     {
-        if (IsScrollingDisabled()) return;
+        //if (isScrolling == false) return;
 
         UpdateAllBackgroundLayers();
-    }
-
-    public void StartScrolling()
-    {
-        isScrolling = true;
-    }
-
-    public void StopScrolling()
-    {
-        isScrolling = false;
     }
 
     public void SetAcceleration(float newAcceleration)
     {
         accelerationFactor = newAcceleration;
         UpdateAllBackgroundsAcceleration();
-    }
-
-    private bool IsScrollingDisabled()
-    {
-        return !isScrolling;
     }
 
     private void UpdateAllBackgroundLayers()
