@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 177288031}
   - component: {fileID: 177288032}
   m_Layer: 0
-  m_Name: ParallaxBackground
+  m_Name: ParallaxBackgroundController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -855,6 +855,7 @@ MonoBehaviour:
   difficultyController: {fileID: 1829632565}
   scoreController: {fileID: 658756348}
   backgroundController: {fileID: 177288032}
+  obstacleSpawner: {fileID: 1545323422}
 --- !u!1 &1081916705
 GameObject:
   m_ObjectHideFlags: 0
@@ -5923,6 +5924,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178074513}
   m_CullTransparentMesh: 1
+--- !u!1 &1545323420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1545323421}
+  - component: {fileID: 1545323422}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1545323421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545323420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1545323422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545323420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c133428ba9fb8c4e8298720abf54376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclePrefab: {fileID: 8415276245254297344, guid: f7f844f3ca7b2d64b9d1f9c4324aa485, type: 3}
+  spawnDistance: 5
+  baseSpeed: 0.95
+  maxHeightOffset: 2
+  accelerationFactor: 1
 --- !u!1 &1655833524
 GameObject:
   m_ObjectHideFlags: 0
@@ -6178,8 +6228,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 927169475}
   - {fileID: 639853455}
-  - {fileID: 468848031}
   - {fileID: 295643246}
+  - {fileID: 468848031}
   - {fileID: 177288031}
+  - {fileID: 1545323421}
   - {fileID: 1087865933}
   - {fileID: 1655833527}

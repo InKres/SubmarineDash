@@ -13,6 +13,8 @@ public class GameSceneBootstrap : MonoBehaviour
     private ScoreController scoreController;
     [SerializeField]
     private ParallaxBackgroundController backgroundController;
+    [SerializeField]
+    private ObstacleSpawner obstacleSpawner;
 
     private void Start()
     {
@@ -33,9 +35,11 @@ public class GameSceneBootstrap : MonoBehaviour
         difficultyController.OnChangeDifficultyValue += OnChangeDifficultyValue;
 
         backgroundController.Init();
+        obstacleSpawner.Init();
 
         //TEMP
         difficultyController.EnableChangingDifficulty(); //Дописать аккуратный старт, или дать этому значению изначально true
+
         //
     }
 
@@ -46,7 +50,7 @@ public class GameSceneBootstrap : MonoBehaviour
         difficultyController.Dispose();
         difficultyController.OnChangeDifficultyValue -= OnChangeDifficultyValue;
 
-        backgroundController.Init();
+        backgroundController.Dispose();
 
         //TEMP
         difficultyController.DisableChangingDifficulty();
@@ -56,5 +60,6 @@ public class GameSceneBootstrap : MonoBehaviour
     private void OnChangeDifficultyValue(float difficultyValue)
     {
         backgroundController.SetAcceleration(difficultyValue);
+        obstacleSpawner.SetAcceleration(difficultyValue);
     }
 }
