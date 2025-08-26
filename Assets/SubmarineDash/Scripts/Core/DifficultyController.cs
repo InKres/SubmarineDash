@@ -10,6 +10,8 @@ public class DifficultyController : MonoBehaviour
     [Min(0f)]
     private float startValue = 1f;
     [SerializeField]
+    private float maxValue = 4.5f;
+    [SerializeField]
     [Min(0f)]
     private float increasePerSecond = 0.01f;
 
@@ -24,7 +26,7 @@ public class DifficultyController : MonoBehaviour
         }
         private set
         {
-            m_CurrentDifficultyValue = value;
+            m_CurrentDifficultyValue = Mathf.Clamp(value, startValue, maxValue);
         }
     }
 
@@ -53,6 +55,9 @@ public class DifficultyController : MonoBehaviour
     private void ChangeDifficulty()
     {
         if (isCanChangingDifficulty == false)
+            return;
+
+        if (CurrentDifficultyValue >= maxValue)
             return;
 
         CurrentDifficultyValue += increasePerSecond * Time.deltaTime;

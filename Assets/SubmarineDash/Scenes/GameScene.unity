@@ -5970,7 +5970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 8415276245254297344, guid: f7f844f3ca7b2d64b9d1f9c4324aa485, type: 3}
   spawnDistance: 5
-  baseSpeed: 0.95
+  baseSpeed: 0.98
   maxHeightOffset: 2
   accelerationFactor: 1
 --- !u!1 &1655833524
