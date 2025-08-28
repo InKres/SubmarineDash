@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6541711707291990275}
   - component: {fileID: 452702176463448945}
   - component: {fileID: 4455127360578851618}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: IcebergLookingDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1853896870456895863}
   - component: {fileID: 4033131237422363862}
   - component: {fileID: 4075034737914477047}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: IcebergLookingUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5403196520558443474}
   - component: {fileID: 9137043013951626669}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DoubleIcebergPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

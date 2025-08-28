@@ -17,8 +17,7 @@ public class SubmarineMovementController : MonoBehaviour
     [SerializeField]
     private KeyCode diveKey = KeyCode.Space;
 
-    [Header("Controller settings")]
-    public bool isCanMove = true;
+    private bool isCanMove;
 
     private Rigidbody2D rb;
 
@@ -44,6 +43,21 @@ public class SubmarineMovementController : MonoBehaviour
             HandleMovement();
             HandleTilt();
         }
+    }
+
+    public void EnableAbilityToMove()
+    {
+        isCanMove = true;
+
+        rb.simulated = true;
+    }
+
+    public void DisableAbilityToMove()
+    {
+        isCanMove = false;
+
+        rb.velocity = Vector2.zero;
+        rb.simulated = false;
     }
 
     private void HandleMovement()

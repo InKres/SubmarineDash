@@ -37,9 +37,6 @@ public class CanvasGroupShowController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    ///      Показать
-    /// </summary>
     [ContextMenu("Show")]
     public void Show()
     {
@@ -50,12 +47,6 @@ public class CanvasGroupShowController : MonoBehaviour
             ImmediatelyShow();
     }
 
-    /// <summary>
-    ///      Показать
-    /// </summary>
-    /// <param name="speed">
-    ///      Скорость
-    /// </param>
     public void Show(float speed)
     {
         IsShown = true;
@@ -63,9 +54,6 @@ public class CanvasGroupShowController : MonoBehaviour
         StartCoroutine(ShowCoroutine(speed));
     }
 
-    /// <summary>
-    ///      Скрыть
-    /// </summary>
     [ContextMenu("Hide")]
     public void Hide()
     {
@@ -81,21 +69,12 @@ public class CanvasGroupShowController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    ///      Скрыть
-    /// </summary>
-    /// <param name="speed">
-    ///      Скорость
-    /// </param>
     public void Hide(float speed)
     {
         StopAllCoroutines();
         StartCoroutine(HideCoroutine(speed));
     }
 
-    /// <summary>
-    ///      Показать незамедлительно
-    /// </summary>
     public void ImmediatelyShow()
     {
         StopAllCoroutines();
@@ -105,9 +84,6 @@ public class CanvasGroupShowController : MonoBehaviour
         OnShowed.Invoke();
     }
 
-    /// <summary>
-    ///      Скрыть незамедлительно
-    /// </summary>
     public void ImmediatelyHide()
     {
         StopAllCoroutines();

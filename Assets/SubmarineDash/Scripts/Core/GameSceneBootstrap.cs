@@ -6,6 +6,12 @@ public class GameSceneBootstrap : MonoBehaviour
     [SerializeField]
     private UICoordinator uiCoordinator;
 
+    [Header("Player components")]
+    [SerializeField]
+    private Player player;
+    [SerializeField]
+    private SubmarineMovementController submarineMovementController;
+
     [Header("Models")]
     [SerializeField]
     private DifficultyController difficultyController;
@@ -16,10 +22,15 @@ public class GameSceneBootstrap : MonoBehaviour
     [SerializeField]
     private ObstacleSpawner obstacleSpawner;
 
+    private PauseController pauseController;
+
     private void Start()
     {
-        //Дописать подгрузку данных всех модулей и только после этого запускать инджект.
+        //Дописать подгрузку сохранения и только после этого запускать инджект
         Init();
+
+        //Проверить есть ли сохранение, и если нет, то запускать без сохранения
+        RunWithoutSaving();
     }
 
     private void OnDestroy()
@@ -29,18 +40,21 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void Init()
     {
+        player.OnGameOver += OnGameOver;
+
+        pauseController = PauseController.Instance;
+        pauseController.OnChangePauseState += OnChangePauseState;
+
+        uiCoordinator.InjectPauseMenuPresenter(pauseController);
+        uiCoordinator.InitCountdownView();
         uiCoordinator.InjectScorePresenter(scoreController);
+        uiCoordinator.InitGameOverPresenter();
 
         difficultyController.Init();
         difficultyController.OnChangeDifficultyValue += OnChangeDifficultyValue;
 
         backgroundController.Init();
         obstacleSpawner.Init();
-
-        //TEMP
-        difficultyController.EnableChangingDifficulty(); //Дописать аккуратный старт, или дать этому значению изначально true
-
-        //
     }
 
     private void Dispose()
@@ -51,15 +65,65 @@ public class GameSceneBootstrap : MonoBehaviour
         difficultyController.OnChangeDifficultyValue -= OnChangeDifficultyValue;
 
         backgroundController.Dispose();
+    }
 
-        //TEMP
+    private void OnChangePauseState(bool isPause)
+    {
+        if (isPause)
+        {
+            OnPause();
+        }
+        else
+        {
+            uiCoordinator.StartCountdown(OnResume);
+        }
+    }
+
+    private void OnPause()
+    {
+        uiCoordinator.StopCountdown();
+
+        player.StopParticle();
+        submarineMovementController.DisableAbilityToMove();
+
         difficultyController.DisableChangingDifficulty();
-        //
+        backgroundController.DisableBackgroundScrolling();
+        obstacleSpawner.DisableObstaclesScrolling();
+    }
+
+    private void OnResume()
+    {
+        player.StartParticle();
+        submarineMovementController.EnableAbilityToMove();
+
+        difficultyController.EnableChangingDifficulty();
+        backgroundController.EnableBackgroundScrolling();
+        obstacleSpawner.EnableObstaclesScrolling();
     }
 
     private void OnChangeDifficultyValue(float difficultyValue)
     {
         backgroundController.SetAcceleration(difficultyValue);
+
         obstacleSpawner.SetAcceleration(difficultyValue);
+    }
+
+    private void RunWithoutSaving()
+    {
+        difficultyController.EnableChangingDifficulty();
+        backgroundController.EnableBackgroundScrolling();
+        obstacleSpawner.EnableObstaclesScrolling();
+
+        player.StartParticle();
+        uiCoordinator.StartCountdown(submarineMovementController.EnableAbilityToMove);
+    }
+
+    private void OnGameOver()
+    {
+        OnPause();
+
+        //Дописать отчистку сохранения
+
+        uiCoordinator.ShowGameOverPanel();
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9099590823523223485}
   - component: {fileID: 524707041998322625}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4179136683962138961}
   - component: {fileID: 2623371664471006191}
   - component: {fileID: 8390744270563413538}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MovableBackground3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1434896249923049254}
   - component: {fileID: 4508660182467218009}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

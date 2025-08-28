@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/SubmarineDash/Scenes/MainMenuScene.unity
+    guid: 6653c602ea8b9944a9bb1258a7b3c7de
+  - enabled: 1
+    path: Assets/SubmarineDash/Scenes/GameScene.unity
+    guid: f803624179e64c84c8f5f578921b8260
   m_configObjects: {}

@@ -1,18 +1,58 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class UICoordinator : MonoBehaviour
 {
     [Header("Presenters")]
     [SerializeField]
-    private ScoreControllerPresenter scoreModulePresenter;
+    private PauseMenuPresenter pauseMenuPresenter;
+    [SerializeField]
+    private GameCountdownView countdownView;
+    [SerializeField]
+    private ScoreControllerPresenter scoreControllerPresenter;
+    [SerializeField]
+    private GameOverPanelPresenter gameOverPanelPresenter;
+
+    public void InjectPauseMenuPresenter(PauseController pauseController)
+    {
+        pauseMenuPresenter.Init(pauseController);
+    }
 
     public void InjectScorePresenter(ScoreController scoreController)
     {
-        scoreModulePresenter.Init(scoreController);
+        scoreControllerPresenter.Init(scoreController);
+    }
+
+    public void InitCountdownView()
+    {
+        countdownView.Init();
+    }
+
+    public void InitGameOverPresenter()
+    {
+        gameOverPanelPresenter.Init();
     }
 
     public void Dispose()
     {
-        scoreModulePresenter.Dispose();
+        pauseMenuPresenter.Dispose();
+        countdownView.Dispose();
+        scoreControllerPresenter.Dispose();
+        gameOverPanelPresenter.Dispose();
+    }
+
+    public void StartCountdown(Action OnTimerComplited)
+    {
+        countdownView.StartCountdown(OnTimerComplited);
+    }
+
+    public void StopCountdown()
+    {
+        countdownView.StopCountdown();
+    }
+
+    public void ShowGameOverPanel()
+    {
+        gameOverPanelPresenter.Show();
     }
 }

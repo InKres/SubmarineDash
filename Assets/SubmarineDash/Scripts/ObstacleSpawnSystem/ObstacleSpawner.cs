@@ -17,6 +17,8 @@ public class ObstacleSpawner : MonoBehaviour
     private float obstacleWidth;
     private List<GameObject> obstacles = new List<GameObject>();
 
+    private bool isScrolling;
+
     public void Init()
     {
         CacheMainCamera();
@@ -32,6 +34,8 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (isScrolling == false) return;
+
         MoveObstacles();
         HandleSpawning();
         HandleDestruction();
@@ -40,6 +44,16 @@ public class ObstacleSpawner : MonoBehaviour
     public void SetAcceleration(float acceleration)
     {
         accelerationFactor = acceleration;
+    }
+
+    public void EnableObstaclesScrolling()
+    {
+        isScrolling = true;
+    }
+
+    public void DisableObstaclesScrolling()
+    {
+        isScrolling = false;
     }
 
     private void CacheMainCamera()
