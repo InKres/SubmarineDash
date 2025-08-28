@@ -86,6 +86,7 @@ public class GameSceneBootstrap : MonoBehaviour
         player.StopParticle();
         submarineMovementController.DisableAbilityToMove();
 
+        scoreController.DisableAddingScore();
         difficultyController.DisableChangingDifficulty();
         backgroundController.DisableBackgroundScrolling();
         obstacleSpawner.DisableObstaclesScrolling();
@@ -96,6 +97,7 @@ public class GameSceneBootstrap : MonoBehaviour
         player.StartParticle();
         submarineMovementController.EnableAbilityToMove();
 
+        scoreController.EnableAddingScore();
         difficultyController.EnableChangingDifficulty();
         backgroundController.EnableBackgroundScrolling();
         obstacleSpawner.EnableObstaclesScrolling();
@@ -110,6 +112,7 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void RunWithoutSaving()
     {
+        scoreController.EnableAddingScore();
         difficultyController.EnableChangingDifficulty();
         backgroundController.EnableBackgroundScrolling();
         obstacleSpawner.EnableObstaclesScrolling();

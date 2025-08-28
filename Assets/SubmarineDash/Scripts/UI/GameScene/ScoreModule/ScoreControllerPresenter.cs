@@ -39,8 +39,6 @@ public class ScoreControllerPresenter : MonoBehaviour, IDisposable
         if (model != null)
         {
             disposables.Dispose();
-
-            Time.timeScale = 0;
         }
     }
 }

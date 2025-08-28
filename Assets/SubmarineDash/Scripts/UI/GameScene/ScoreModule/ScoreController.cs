@@ -20,6 +20,8 @@ public class ScoreController : MonoBehaviour
         }
     }
 
+    private bool isCanAddingScore;
+
     private float timer = 0f;
 
     public void Init(int score)
@@ -27,8 +29,20 @@ public class ScoreController : MonoBehaviour
         Score = score;
     }
 
+    public void EnableAddingScore()
+    {
+        isCanAddingScore = true;
+    }
+
+    public void DisableAddingScore()
+    {
+        isCanAddingScore = false;
+    }
+
     private void Update()
     {
+        if (isCanAddingScore == false) return;
+
         timer += Time.deltaTime;
 
         if (timer > 1f)

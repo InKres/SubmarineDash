@@ -64,16 +64,13 @@ public class PauseMenuPresenter : MonoBehaviour
     private void Resume()
     {
         //ƒобавить отсчет до того как игра продолжитс€
-
-        PauseController.Instance.Resume();
     }
 
     private void LoadMainMenu()
     {
         //ƒобавить сохранение прогресса
-        PauseController.Instance.Resume();
 
-        SceneManager.LoadScene("MeinMenuScene");
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     private void Exit()
