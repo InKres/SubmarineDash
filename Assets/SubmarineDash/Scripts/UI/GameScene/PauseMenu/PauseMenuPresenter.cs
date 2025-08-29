@@ -64,6 +64,7 @@ public class PauseMenuPresenter : MonoBehaviour
     private void Resume()
     {
         //ƒобавить отсчет до того как игра продолжитс€
+        model.Resume();
     }
 
     private void LoadMainMenu()

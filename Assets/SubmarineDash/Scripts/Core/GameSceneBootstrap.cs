@@ -4,7 +4,7 @@ public class GameSceneBootstrap : MonoBehaviour
 {
     [Header("Bootstrap Components")]
     [SerializeField]
-    private UICoordinator uiCoordinator;
+    private GameSceneUICoordinator uiCoordinator;
 
     [Header("Player components")]
     [SerializeField]
@@ -59,12 +59,17 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void Dispose()
     {
+        player.OnGameOver -= OnGameOver;
+
         uiCoordinator.Dispose();
+
+        pauseController.OnChangePauseState -= OnChangePauseState;
 
         difficultyController.Dispose();
         difficultyController.OnChangeDifficultyValue -= OnChangeDifficultyValue;
 
         backgroundController.Dispose();
+        obstacleSpawner.Dispose();
     }
 
     private void OnChangePauseState(bool isPause)

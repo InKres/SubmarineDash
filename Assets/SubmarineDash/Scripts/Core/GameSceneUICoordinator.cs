@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class UICoordinator : MonoBehaviour
+public class GameSceneUICoordinator : MonoBehaviour
 {
     [Header("Presenters")]
     [SerializeField]
