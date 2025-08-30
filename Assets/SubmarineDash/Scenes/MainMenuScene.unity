@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxBackgroundController: {fileID: 1464500647}
-  objectMover: {fileID: 5587831112003911888}
+  playerAnimator: {fileID: 5587831112003911888}
 --- !u!1 &1187671048
 GameObject:
   m_ObjectHideFlags: 0

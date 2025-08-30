@@ -118,7 +118,7 @@ public class SimpleTransformAnimator : MonoBehaviour
         }
 
         if (isLoop)
-            rotationSequence.SetLoops(-1);
+            rotationSequence.SetLoops(-1, loopType);
     }
 
     public void StopRotatation()
