@@ -8,7 +8,7 @@ public class MainMenuBootstrap : MonoBehaviour
 
     [Header("Other components")]
     [SerializeField]
-    private ObjectMover objectMover;
+    private SimpleTransformAnimator playerAnimator;
 
     private void Start()
     {
@@ -25,13 +25,14 @@ public class MainMenuBootstrap : MonoBehaviour
         parallaxBackgroundController.Init();
         parallaxBackgroundController.EnableBackgroundScrolling();
 
-        objectMover.Init();
+        playerAnimator.Init();
+        playerAnimator.StartAnimation();
     }
 
     private void Dispose()
     {
         parallaxBackgroundController.Dispose();
 
-        objectMover.Dispose();
+        playerAnimator.Dispose();
     }
 }
