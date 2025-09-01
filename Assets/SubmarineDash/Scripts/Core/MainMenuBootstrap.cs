@@ -1,7 +1,12 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class MainMenuBootstrap : MonoBehaviour
 {
+    [Header("Bootstrap components")]
+    [SerializeField]
+    private MainMenuUICoordinator uiCoordinator;
+
     [Header("Models")]
     [SerializeField]
     private ParallaxBackgroundController parallaxBackgroundController;
@@ -22,6 +27,8 @@ public class MainMenuBootstrap : MonoBehaviour
 
     private void Init()
     {
+        uiCoordinator.Init();
+
         parallaxBackgroundController.Init();
         parallaxBackgroundController.EnableBackgroundScrolling();
 
@@ -31,6 +38,8 @@ public class MainMenuBootstrap : MonoBehaviour
 
     private void Dispose()
     {
+        uiCoordinator.Dispose();
+
         parallaxBackgroundController.Dispose();
 
         playerAnimator.Dispose();

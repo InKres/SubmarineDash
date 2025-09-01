@@ -45,6 +45,7 @@ public class GameSceneBootstrap : MonoBehaviour
         pauseController = PauseController.Instance;
         pauseController.OnChangePauseState += OnChangePauseState;
 
+        uiCoordinator.Init();
         uiCoordinator.InjectPauseMenuPresenter(pauseController);
         uiCoordinator.InitCountdownView();
         uiCoordinator.InjectScorePresenter(scoreController);

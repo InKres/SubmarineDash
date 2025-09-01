@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenuPresenter : MonoBehaviour
@@ -12,9 +11,7 @@ public class PauseMenuPresenter : MonoBehaviour
     [SerializeField]
     private Button resumeButton;
     [SerializeField]
-    private Button loadMeinMenuButton;
-    [SerializeField]
-    private Button exitButton;
+    private SceneLoaderView mainMenuSceneLoader;
 
     private PauseController model;
 
@@ -26,8 +23,8 @@ public class PauseMenuPresenter : MonoBehaviour
         model.OnChangePauseState += OnChangePauseState;
 
         resumeButton.onClick.AddListener(Resume);
-        loadMeinMenuButton.onClick.AddListener(LoadMainMenu);
-        exitButton.onClick.AddListener(Exit);
+
+        mainMenuSceneLoader.Init();
     }
 
     public void Dispose()
@@ -35,18 +32,8 @@ public class PauseMenuPresenter : MonoBehaviour
         model.OnChangePauseState -= OnChangePauseState;
 
         resumeButton.onClick.RemoveListener(Resume);
-        loadMeinMenuButton.onClick.RemoveListener(LoadMainMenu);
-        exitButton.onClick.RemoveListener(Exit);
-    }
 
-    public void Show()
-    {
-        showController.Show();
-    }
-
-    public void Hide()
-    {
-        showController.Hide();
+        mainMenuSceneLoader.Dispose();
     }
 
     private void OnChangePauseState(bool isPause)
@@ -61,23 +48,23 @@ public class PauseMenuPresenter : MonoBehaviour
         }
     }
 
-    private void Resume()
+    public void Show()
     {
-        //ƒобавить отсчет до того как игра продолжитс€
+        showController.Show();
+    }
+
+    public void Hide()
+    {
+        showController.Hide();
+    }
+
+    public void Resume()
+    {
         model.Resume();
     }
 
-    private void LoadMainMenu()
+    public void Pause()
     {
-        //ƒобавить сохранение прогресса
-
-        SceneManager.LoadScene("MainMenuScene");
-    }
-
-    private void Exit()
-    {
-        //ƒобавить сохранение прогресса
-
-        Application.Quit();
+        model.Pause();
     }
 }

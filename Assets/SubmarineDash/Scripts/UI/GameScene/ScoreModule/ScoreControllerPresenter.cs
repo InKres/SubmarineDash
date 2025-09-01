@@ -1,5 +1,4 @@
 ﻿using System;
-using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ public class ScoreControllerPresenter : MonoBehaviour, IDisposable
 {
     [Header("View components")]
     [SerializeField]
-    private TMP_Text scoreText;
+    private ScoreView scoreView;
 
     private ScoreController model;
 
@@ -30,7 +29,7 @@ public class ScoreControllerPresenter : MonoBehaviour, IDisposable
 
         disposables.Add(score.Subscribe(score =>
         {
-            scoreText.text = score.ToString();
+            scoreView.ChangeScoreValue(score);
         }));
     }
 

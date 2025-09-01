@@ -1,9 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSceneUICoordinator : MonoBehaviour
 {
     [Header("Presenters")]
+    [SerializeField]
+    private Button pauseButton;
     [SerializeField]
     private PauseMenuPresenter pauseMenuPresenter;
     [SerializeField]
@@ -12,6 +15,14 @@ public class GameSceneUICoordinator : MonoBehaviour
     private ScoreControllerPresenter scoreControllerPresenter;
     [SerializeField]
     private GameOverPanelPresenter gameOverPanelPresenter;
+
+    public void Init()
+    {
+        pauseButton.onClick.AddListener(() =>
+        {
+            pauseMenuPresenter.Pause();
+        });
+    }
 
     public void InjectPauseMenuPresenter(PauseController pauseController)
     {
