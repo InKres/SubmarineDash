@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MainMenuUICoordinator : MonoBehaviour
 {
-    [Header("private")]
+    [Header("Components")]
     [SerializeField]
     private Button settingsButton;
     [SerializeField]

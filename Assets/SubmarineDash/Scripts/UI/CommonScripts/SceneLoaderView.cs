@@ -29,6 +29,6 @@ public class SceneLoaderView : MonoBehaviour
     {
         OnLoadScene?.Invoke();
 
-        SceneManager.LoadScene("SceneName");
+        SceneManager.LoadScene(sceneName);
     }
 }
