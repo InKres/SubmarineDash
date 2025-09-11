@@ -3,16 +3,24 @@
 [Serializable]
 public class GameData
 {
-    public int CurrentScore { get; private set; }
-    public int CurrentDifficulty { get; private set; }
+    public int currentScore;
+    public float currentDifficulty;
 
-    public int RecordScore { get; private set; }
+    public int recordScore;
 
-    public GameData(int currentScore, int currentDifficulty, int recordScore)
+    public GameData(int currentScore, float currentDifficulty, int recordScore)
     {
-        CurrentScore = currentScore;
-        CurrentDifficulty = currentDifficulty;
+        this.currentScore = currentScore;
+        this.currentDifficulty = currentDifficulty;
 
-        RecordScore = recordScore;
+        this.recordScore = recordScore;
+    }
+
+    public GameData(GameData gameData)
+    {
+        currentScore = gameData.currentScore;
+        currentDifficulty = gameData.currentDifficulty;
+
+        recordScore = gameData.recordScore;
     }
 }
