@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class BasePersistence<T> : MonoBehaviour where T : IPersistentData, new()
 {
@@ -14,46 +15,38 @@ public abstract class BasePersistence<T> : MonoBehaviour where T : IPersistentDa
         currentData = new T();
     }
 
-    public virtual void SaveData(T data)
+    public virtual void SaveData(T data, Action onSuccess = null, Action<string> onError = null)
     {
         if (data == null)
         {
-            Debug.LogError("Cannot save null data");
+            onError?.Invoke("Cannot save null data");
             return;
         }
 
         currentData = data;
-        encryptionService.SaveData(data, fileName);
-        Debug.Log($"Data saved to {fileName}");
+        encryptionService.SaveData(data, fileName, onSuccess, onError);
     }
 
-    public virtual T LoadData()
+    public virtual void LoadData(Action<T> onSuccess = null, Action<string> onError = null)
+
     {
-        currentData = encryptionService.LoadData<T>(fileName);
+        encryptionService.LoadData<T>(fileName,
+            data =>
+            {
+                currentData = data;
+                onSuccess?.Invoke(data);
+            },
+            onError);
+    }
 
-        if (currentData == null)
-        {
-            currentData = new T();
-            Debug.Log($"Created new default data for {fileName}");
-        }
-        else
-        {
-            Debug.Log($"Data loaded from {fileName}");
-        }
-
-        return currentData;
+    public virtual void DeleteFile(Action onSuccess = null, Action<string> onError = null)
+    {
+        encryptionService.DeleteFile(fileName, onSuccess, onError);
     }
 
     public virtual bool FileExists()
     {
         return encryptionService.FileExists(fileName);
-    }
-
-    public virtual void DeleteFile()
-    {
-        encryptionService.DeleteFile(fileName);
-        currentData = new T();
-        Debug.Log($"File {fileName} deleted and data reset");
     }
 
     public virtual T GetCurrentData()
