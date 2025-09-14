@@ -5,21 +5,7 @@ public class PauseController : MonoBehaviour
 {
     public event Action<bool> OnChangePauseState;
 
-    public static PauseController Instance { get; private set; }
-
     public bool GameIsPaused { get; private set; }
-
-    private void Start()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance == this)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Update()
     {

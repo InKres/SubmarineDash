@@ -24,7 +24,7 @@ public class ScoreController : MonoBehaviour
 
     private float timer = 0f;
 
-    public void Init(int score)
+    public void Init(int score = 0)
     {
         Score = score;
     }

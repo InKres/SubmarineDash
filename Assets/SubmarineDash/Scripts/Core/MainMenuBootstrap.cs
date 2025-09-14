@@ -14,14 +14,43 @@ public class MainMenuBootstrap : MonoBehaviour
     [SerializeField]
     private SimpleTransformAnimator playerAnimator;
 
+    [Header("Save scripts")]
+    [SerializeField]
+    private GameProgressPersistence gameProgressPersistence;
+    [SerializeField]
+    private SettingsPersistence settingsPersistence;
+
     private void Start()
     {
+        LoadGameProgressData();
+        LoadSettingsData();
+
         Init();
     }
 
     private void OnDestroy()
     {
         Dispose();
+    }
+
+    private void LoadGameProgressData()
+    {
+        gameProgressPersistence.LoadData(data =>
+        {
+            uiCoordinator.ChangeScore(data.recordScore);
+        });
+
+    }
+
+    private void LoadSettingsData()
+    {
+        settingsPersistence.LoadData(data =>
+        {
+
+        });
+
+        //Выставить настройки громкости музыки.
+        //Выставить настройки громкости эффектов.
     }
 
     private void Init()

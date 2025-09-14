@@ -6,25 +6,40 @@ public class GameSceneUICoordinator : MonoBehaviour
 {
     [Header("Presenters")]
     [SerializeField]
-    private Button pauseButton;
+    private PauseMenuControllerPresenter pauseMenuPresenter;
     [SerializeField]
-    private PauseMenuPresenter pauseMenuPresenter;
-    [SerializeField]
-    private GameCountdownView countdownView;
+    private SettingsControllerPresenter settingsControllerPresenter;
     [SerializeField]
     private ScoreControllerPresenter scoreControllerPresenter;
     [SerializeField]
     private GameOverPanelPresenter gameOverPanelPresenter;
 
+    [Header("View")]
+    [SerializeField]
+    private Button pauseButton;
+    [SerializeField]
+    private GameCountdownView countdownView;
+
     public void Init()
     {
         pauseButton.onClick.AddListener(() =>
         {
-            pauseMenuPresenter.Pause();
+            pauseMenuPresenter.Show();
         });
+
+        InitCountdownView();
+        InitGameOverPresenter();
     }
 
-    public void InjectPauseMenuPresenter(PauseController pauseController)
+    public void Dispose()
+    {
+        pauseMenuPresenter.Dispose();
+        countdownView.Dispose();
+        scoreControllerPresenter.Dispose();
+        gameOverPanelPresenter.Dispose();
+    }
+
+    public void InjectPauseMenuPresenter(PauseMenuController pauseController)
     {
         pauseMenuPresenter.Init(pauseController);
     }
@@ -34,22 +49,19 @@ public class GameSceneUICoordinator : MonoBehaviour
         scoreControllerPresenter.Init(scoreController);
     }
 
-    public void InitCountdownView()
+    public void InitSettingsControllerPresenter(SettingsController settingsController)
+    {
+        settingsControllerPresenter.Init(settingsController);
+    }
+
+    private void InitCountdownView()
     {
         countdownView.Init();
     }
 
-    public void InitGameOverPresenter()
+    private void InitGameOverPresenter()
     {
         gameOverPanelPresenter.Init();
-    }
-
-    public void Dispose()
-    {
-        pauseMenuPresenter.Dispose();
-        countdownView.Dispose();
-        scoreControllerPresenter.Dispose();
-        gameOverPanelPresenter.Dispose();
     }
 
     public void StartCountdown(Action OnTimerComplited)

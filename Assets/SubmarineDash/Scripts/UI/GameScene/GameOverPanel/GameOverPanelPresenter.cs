@@ -33,11 +33,11 @@ public class GameOverPanelPresenter : MonoBehaviour
 
     public void Replay()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("GameScene"); //TODO: Вынести в модель
     }
 
     public void ExitToMainMenu()
     {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("MainMenuScene"); //TODO: Вынести в модель
     }
 }

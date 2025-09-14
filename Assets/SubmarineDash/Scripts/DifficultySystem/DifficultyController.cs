@@ -41,7 +41,7 @@ public class DifficultyController : MonoBehaviour
     {
         CurrentDifficultyValue = startValue;
 
-        if (difficultyValue > 0)
+        if (difficultyValue >= 1)
         {
             CurrentDifficultyValue = difficultyValue;
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameSceneBootstrap : MonoBehaviour
 {
@@ -21,16 +22,27 @@ public class GameSceneBootstrap : MonoBehaviour
     private ParallaxBackgroundController backgroundController;
     [SerializeField]
     private ObstacleSpawner obstacleSpawner;
-
+    [SerializeField]
     private PauseController pauseController;
+    [SerializeField]
+    private PauseMenuController pauseMenuController;
+    [SerializeField]
+    private SettingsController settingsController;
+
+    [Header("Save scripts")]
+    [SerializeField]
+    private GameProgressPersistence gameProgressPersistence;
+    [SerializeField]
+    private SettingsPersistence settingsPersistence;
 
     private void Start()
     {
-        //Дописать подгрузку сохранения и только после этого запускать инджект
+        LoadGameProgressData();
+        LoadSettingsData();
+
         Init();
 
-        //Проверить есть ли сохранение, и если нет, то запускать без сохранения
-        RunWithoutSaving();
+        StartGame();
     }
 
     private void OnDestroy()
@@ -38,20 +50,44 @@ public class GameSceneBootstrap : MonoBehaviour
         Dispose();
     }
 
+    private void OnApplicationQuit()
+    {
+        SaveGameProgress();
+    }
+
+    private void LoadGameProgressData()
+    {
+        gameProgressPersistence.LoadData(data =>
+        {
+            scoreController.Init(data.currentScore);
+            Debug.Log($"Current score = {data.currentScore}", this);
+
+            difficultyController.Init(data.currentDifficulty);
+            Debug.Log($"Current difficulty = {data.currentDifficulty}", this);
+        });
+    }
+
+    private void LoadSettingsData()
+    {
+        settingsPersistence.LoadData(data =>
+        {
+            settingsController.Init(data.musicSoundVolume, data.efxSoundVolume);
+        });
+
+        //Выставить настройки громкости музыки.
+        //Выставить настройки громкости эффектов.
+    }
+
     private void Init()
     {
         player.OnGameOver += OnGameOver;
 
-        pauseController = PauseController.Instance;
         pauseController.OnChangePauseState += OnChangePauseState;
 
         uiCoordinator.Init();
-        uiCoordinator.InjectPauseMenuPresenter(pauseController);
-        uiCoordinator.InitCountdownView();
+        uiCoordinator.InjectPauseMenuPresenter(pauseMenuController);
         uiCoordinator.InjectScorePresenter(scoreController);
-        uiCoordinator.InitGameOverPresenter();
 
-        difficultyController.Init();
         difficultyController.OnChangeDifficultyValue += OnChangeDifficultyValue;
 
         backgroundController.Init();
@@ -116,7 +152,7 @@ public class GameSceneBootstrap : MonoBehaviour
         obstacleSpawner.SetAcceleration(difficultyValue);
     }
 
-    private void RunWithoutSaving()
+    private void StartGame()
     {
         scoreController.EnableAddingScore();
         difficultyController.EnableChangingDifficulty();
@@ -131,8 +167,45 @@ public class GameSceneBootstrap : MonoBehaviour
     {
         OnPause();
 
-        //Дописать отчистку сохранения
+        SaveRecord();
 
         uiCoordinator.ShowGameOverPanel();
+    }
+
+    public void SaveGameProgress() // Его надо как-то вызывать
+    {
+        GameProgressData data = new GameProgressData();
+        data.currentScore = scoreController.Score;
+        data.currentDifficulty = difficultyController.CurrentDifficultyValue;
+
+        gameProgressPersistence.SaveData(data);
+    }
+
+    private void SaveRecord()
+    {
+        int currentScore = scoreController.Score;
+        int currentRecord = gameProgressPersistence.GetCurrentData().recordScore;
+
+        GameProgressData data = new GameProgressData();
+        if (currentRecord < currentScore)
+        {
+            data.recordScore = currentScore;
+        }
+        else
+        {
+            data.recordScore = currentRecord;
+        }
+
+        gameProgressPersistence.SaveData(data);
+    }
+
+    private void ReloadGameScene()
+    {
+        SceneManager.LoadScene("GameScene"); // Фу фу фу
+    }
+
+    private void LoadMeinMenuScene()
+    {
+        SceneManager.LoadScene("MainMenuScene"); // Фу фу фу
     }
 }

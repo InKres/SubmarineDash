@@ -5,6 +5,8 @@ public class MainMenuUICoordinator : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField]
+    private ScoreView scoreView;
+    [SerializeField]
     private Button settingsButton;
     [SerializeField]
     private SceneLoaderView gameSceneLoader;
@@ -19,6 +21,11 @@ public class MainMenuUICoordinator : MonoBehaviour
     {
         settingsButton.onClick.RemoveListener(OpenSettingsPanel);
         gameSceneLoader.Dispose();
+    }
+
+    public void ChangeScore(int score)
+    {
+        scoreView.ChangeScoreValue(score);
     }
 
     private void OpenSettingsPanel()

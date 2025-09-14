@@ -1,55 +1,48 @@
-﻿using UniRx;
+﻿using System;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField]
-    private AudioSource backgroundSoundSource;
+    private AudioSource musicAudioSource;
     [SerializeField]
-    private AudioSource soundEffectsSource;
+    private AudioSource efxAudioSource;
 
     [Header("Settings")]
     [SerializeField]
     private AudioClip backgroundAudioClip;
 
-    private ReactiveProperty<float> globalVolume = new ReactiveProperty<float>();
-
-    private CompositeDisposable disposables = new CompositeDisposable();
-
     public void Init()
     {
-        disposables.Add(globalVolume.Subscribe(volume =>
-        {
-            backgroundSoundSource.volume = volume;
-            soundEffectsSource.volume = volume;
-        }));
-
-        backgroundSoundSource.clip = backgroundAudioClip;
-        backgroundSoundSource.Play();
+        musicAudioSource.clip = backgroundAudioClip;
+        musicAudioSource.Play();
     }
 
     public void Dispose()
     {
-        backgroundSoundSource.Stop();
-        backgroundSoundSource = null;
-
-        disposables.Dispose();
+        musicAudioSource.Stop();
+        musicAudioSource = null;
     }
 
-    public void ChangeGlobalVolume(float volumeValue)
+    public void ChangeMusicSoundVolume(float value)
     {
-        globalVolume.Value = volumeValue / 100f;
+        musicAudioSource.volume = Math.Clamp(value, 0f, 1f);
+    }
+
+    public void ChangeEFXSoundVolume(float value)
+    {
+        efxAudioSource.volume = Math.Clamp(value, 0f, 1f);
     }
 
     public void PlayBackgroundSound()
     {
-        backgroundSoundSource.Play();
+        musicAudioSource.Play();
     }
 
     public void StopBackgroundSound()
     {
-        backgroundSoundSource.Stop();
+        musicAudioSource.Stop();
     }
 
     public void PlaySoundEffect(AudioClip audioClip)
@@ -59,7 +52,7 @@ public class AudioController : MonoBehaviour
         //    soundEffectsSource.Stop();
         //}
 
-        soundEffectsSource.clip = audioClip;
-        soundEffectsSource.Play();
+        efxAudioSource.clip = audioClip;
+        efxAudioSource.Play();
     }
 }
