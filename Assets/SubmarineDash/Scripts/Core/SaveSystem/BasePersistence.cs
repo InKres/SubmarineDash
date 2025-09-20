@@ -12,6 +12,7 @@ public abstract class BasePersistence<T> : MonoBehaviour where T : IPersistentDa
     public virtual void Init()
     {
         encryptionService = new DataEncryptionService();
+        encryptionService.Init();
         currentData = new T();
     }
 
@@ -28,7 +29,6 @@ public abstract class BasePersistence<T> : MonoBehaviour where T : IPersistentDa
     }
 
     public virtual void LoadData(Action<T> onSuccess = null, Action<string> onError = null)
-
     {
         encryptionService.LoadData<T>(fileName,
             data =>

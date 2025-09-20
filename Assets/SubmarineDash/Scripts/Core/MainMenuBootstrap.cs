@@ -9,6 +9,10 @@ public class MainMenuBootstrap : MonoBehaviour
     [Header("Models")]
     [SerializeField]
     private ParallaxBackgroundController parallaxBackgroundController;
+    [SerializeField]
+    private ScoreController scoreController;
+    [SerializeField]
+    private SettingsController settingsController;
 
     [Header("Other components")]
     [SerializeField]
@@ -22,6 +26,8 @@ public class MainMenuBootstrap : MonoBehaviour
 
     private void Start()
     {
+        gameProgressPersistence.Init();
+        settingsPersistence.Init();
         LoadGameProgressData();
         LoadSettingsData();
 
@@ -37,7 +43,12 @@ public class MainMenuBootstrap : MonoBehaviour
     {
         gameProgressPersistence.LoadData(data =>
         {
-            uiCoordinator.ChangeScore(data.recordScore);
+            if (data == null)
+            {
+                data = new GameProgressData();
+            }
+
+            scoreController.Init(data.recordScore);
         });
 
     }
@@ -46,22 +57,35 @@ public class MainMenuBootstrap : MonoBehaviour
     {
         settingsPersistence.LoadData(data =>
         {
+            if (data == null)
+            {
+                Debug.Log("Settings save file not found!");
 
+                data = new SettingsData();
+                data.musicSoundVolume = 100f;
+                data.efxSoundVolume = 100f;
+
+                settingsPersistence.SaveData(data);
+            }
+
+            settingsController.Init(data.musicSoundVolume, data.efxSoundVolume);
         });
-
-        //Выставить настройки громкости музыки.
-        //Выставить настройки громкости эффектов.
     }
 
     private void Init()
     {
-        uiCoordinator.Init();
+        scoreController.DisableAddingScore();
 
         parallaxBackgroundController.Init();
         parallaxBackgroundController.EnableBackgroundScrolling();
 
         playerAnimator.Init();
         playerAnimator.StartAnimation();
+
+        uiCoordinator.Init();
+        uiCoordinator.InitScoreControllerPresenter(scoreController);
+
+        uiCoordinator.InitSettingsControllerPresenter(settingsController);
     }
 
     private void Dispose()

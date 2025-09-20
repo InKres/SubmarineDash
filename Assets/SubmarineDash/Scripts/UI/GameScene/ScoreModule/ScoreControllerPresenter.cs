@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -6,11 +7,9 @@ public class ScoreControllerPresenter : MonoBehaviour, IDisposable
 {
     [Header("View components")]
     [SerializeField]
-    private ScoreView scoreView;
+    private TMP_Text scoreText;
 
     private ScoreController model;
-
-    private ReactiveProperty<int> score = new ReactiveProperty<int>();
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -24,12 +23,9 @@ public class ScoreControllerPresenter : MonoBehaviour, IDisposable
 
         model = scoreController;
 
-        disposables.Add(model.ObserveEveryValueChanged(x => x.Score)
-            .Subscribe(scoreValue => score.Value = scoreValue));
-
-        disposables.Add(score.Subscribe(score =>
+        disposables.Add(model.ObserveEveryValueChanged(model => model.Score).Subscribe(scoreValue =>
         {
-            scoreView.ChangeScoreValue(score);
+            scoreText.text = scoreValue.ToString();
         }));
     }
 

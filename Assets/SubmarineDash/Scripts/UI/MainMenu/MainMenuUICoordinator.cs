@@ -3,33 +3,41 @@ using UnityEngine.UI;
 
 public class MainMenuUICoordinator : MonoBehaviour
 {
-    [Header("Components")]
+    [Header("Presenters")]
     [SerializeField]
-    private ScoreView scoreView;
+    private ScoreControllerPresenter scoreControllerPresenter;
+    [SerializeField]
+    private SettingsControllerPresenter settingsControllerPresenter;
+
+    [Header("View components")]
     [SerializeField]
     private Button settingsButton;
-    [SerializeField]
-    private SceneLoaderView gameSceneLoader;
 
     public void Init()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
-        gameSceneLoader.Init();
     }
 
     public void Dispose()
     {
         settingsButton.onClick.RemoveListener(OpenSettingsPanel);
-        gameSceneLoader.Dispose();
+
+        scoreControllerPresenter.Dispose();
+        settingsControllerPresenter.Dispose();
     }
 
-    public void ChangeScore(int score)
+    public void InitScoreControllerPresenter(ScoreController scoreController)
     {
-        scoreView.ChangeScoreValue(score);
+        scoreControllerPresenter.Init(scoreController);
+    }
+
+    public void InitSettingsControllerPresenter(SettingsController settingsController)
+    {
+        settingsControllerPresenter.Init(settingsController);
     }
 
     private void OpenSettingsPanel()
     {
-
+        settingsControllerPresenter.Show();
     }
 }

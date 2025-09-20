@@ -37,6 +37,8 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void Start()
     {
+        gameProgressPersistence.Init();
+        settingsPersistence.Init();
         LoadGameProgressData();
         LoadSettingsData();
 
@@ -73,9 +75,6 @@ public class GameSceneBootstrap : MonoBehaviour
         {
             settingsController.Init(data.musicSoundVolume, data.efxSoundVolume);
         });
-
-        //Выставить настройки громкости музыки.
-        //Выставить настройки громкости эффектов.
     }
 
     private void Init()

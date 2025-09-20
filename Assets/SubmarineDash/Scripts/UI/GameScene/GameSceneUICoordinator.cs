@@ -22,10 +22,7 @@ public class GameSceneUICoordinator : MonoBehaviour
 
     public void Init()
     {
-        pauseButton.onClick.AddListener(() =>
-        {
-            pauseMenuPresenter.Show();
-        });
+        pauseButton.onClick.AddListener(OnClickPauseButton);
 
         InitCountdownView();
         InitGameOverPresenter();
@@ -33,10 +30,14 @@ public class GameSceneUICoordinator : MonoBehaviour
 
     public void Dispose()
     {
+        pauseButton.onClick.RemoveListener(OnClickPauseButton);
+
         pauseMenuPresenter.Dispose();
-        countdownView.Dispose();
+        settingsControllerPresenter.Dispose();
         scoreControllerPresenter.Dispose();
         gameOverPanelPresenter.Dispose();
+
+        countdownView.Dispose();
     }
 
     public void InjectPauseMenuPresenter(PauseMenuController pauseController)
@@ -77,5 +78,10 @@ public class GameSceneUICoordinator : MonoBehaviour
     public void ShowGameOverPanel()
     {
         gameOverPanelPresenter.Show();
+    }
+
+    private void OnClickPauseButton()
+    {
+        pauseMenuPresenter.Show();
     }
 }

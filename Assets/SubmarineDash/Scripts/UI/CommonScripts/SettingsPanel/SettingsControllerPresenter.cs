@@ -35,7 +35,7 @@ public class SettingsControllerPresenter : MonoBehaviour
 
         disposables.Add(model.ObserveEveryValueChanged(model => model.MusicSoundVolume).Subscribe(musicVolume =>
         {
-            float volume = musicVolume * 100f;
+            float volume = musicVolume;
             if (musicVolumeSlider.value != volume)
             {
                 musicVolumeSlider.value = volume;
@@ -44,7 +44,7 @@ public class SettingsControllerPresenter : MonoBehaviour
 
         disposables.Add(model.ObserveEveryValueChanged(model => model.EFXSoundVolume).Subscribe(EFXVolume =>
         {
-            float volume = EFXVolume * 100f;
+            float volume = EFXVolume;
             if (efxVolumeSlider.value != volume)
             {
                 efxVolumeSlider.value = volume;

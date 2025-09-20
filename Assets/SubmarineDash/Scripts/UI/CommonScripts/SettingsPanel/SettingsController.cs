@@ -17,6 +17,11 @@ public class SettingsController : MonoBehaviour
     {
         MusicSoundVolume = musicVolume;
         EFXSoundVolume = efxVolume;
+
+        audioController.Init();
+
+        ChangeMusicSoundVolume(musicVolume);
+        ChangeEFXSoundVolume(efxVolume);
     }
 
     public void ChangeMusicSoundVolume(float value)
@@ -34,8 +39,8 @@ public class SettingsController : MonoBehaviour
     public void SaveSettings()
     {
         SettingsData data = new SettingsData();
-        data.musicSoundVolume = MusicSoundVolume;
-        data.efxSoundVolume = EFXSoundVolume;
+        data.musicSoundVolume = MusicSoundVolume * 100;
+        data.efxSoundVolume = EFXSoundVolume * 100;
 
         settingsPersistence.SaveData(data);
     }

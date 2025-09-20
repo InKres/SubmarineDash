@@ -8,19 +8,27 @@ public class DataEncryptionService
 {
     private readonly byte[] encryptionKey = { 0x15, 0x2F, 0x7A, 0xE9, 0x3C, 0x91, 0xB4, 0x58 };
 
+    private string persistentDataPath;
+
+    public void Init()
+    {
+        persistentDataPath = Application.persistentDataPath;
+    }
+
     public async void SaveData(IPersistentData data, string fileName, Action onSuccess = null, Action<string> onError = null)
     {
         try
         {
+            string path = GetFilePath(fileName);
+
             await Task.Run(() =>
             {
-                string path = GetFilePath(fileName);
                 string jsonData = data.ToJson();
                 byte[] encryptedData = EncryptString(jsonData);
                 File.WriteAllBytes(path, encryptedData);
             });
 
-            Debug.Log($"Data saved to: {fileName}");
+            Debug.Log($"Data saved to: {path}");
             onSuccess?.Invoke();
         }
         catch (Exception e)
@@ -34,12 +42,13 @@ public class DataEncryptionService
     {
         try
         {
+            string path = GetFilePath(fileName);
+
             T result = await Task.Run(() =>
             {
-                string path = GetFilePath(fileName);
 
                 if (!File.Exists(path))
-                    return new T();
+                    return default(T);
 
                 byte[] encryptedData = File.ReadAllBytes(path);
                 string jsonData = DecryptBytes(encryptedData);
@@ -49,7 +58,7 @@ public class DataEncryptionService
                 return data;
             });
 
-            Debug.Log($"Data loaded from: {fileName}");
+            Debug.Log($"Data loaded from: {path}");
             onSuccess?.Invoke(result);
         }
         catch (Exception e)
@@ -66,6 +75,7 @@ public class DataEncryptionService
             await Task.Run(() =>
             {
                 string path = GetFilePath(fileName);
+
                 if (File.Exists(path))
                     File.Delete(path);
             });
@@ -87,7 +97,7 @@ public class DataEncryptionService
 
     private string GetFilePath(string fileName)
     {
-        return Path.Combine(Application.persistentDataPath, fileName);
+        return Path.Combine(persistentDataPath, fileName);
     }
 
     private byte[] EncryptString(string data)

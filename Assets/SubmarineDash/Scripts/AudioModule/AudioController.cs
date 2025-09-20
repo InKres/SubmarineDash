@@ -15,8 +15,11 @@ public class AudioController : MonoBehaviour
 
     public void Init()
     {
-        musicAudioSource.clip = backgroundAudioClip;
-        musicAudioSource.Play();
+        if (backgroundAudioClip != null)
+        {
+            musicAudioSource.clip = backgroundAudioClip;
+            musicAudioSource.Play();
+        }
     }
 
     public void Dispose()
