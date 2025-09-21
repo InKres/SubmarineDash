@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,8 @@ public class GameSceneBootstrap : MonoBehaviour
     private PauseMenuController pauseMenuController;
     [SerializeField]
     private SettingsController settingsController;
+    [SerializeField]
+    private GameOverController gameOverController;
 
     [Header("Save scripts")]
     [SerializeField]
@@ -54,7 +57,29 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveGameProgress();
+        if (player.IsDead == false)
+        {
+            SaveGameProgress();
+        }
+        else
+        {
+            SaveRecord(); //На случай, если игрок психанет, когда програет и решит закрыть игру
+        }
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus == false)
+        {
+            if (player.IsDead == false)
+            {
+                SaveGameProgress(); // На всякий случай
+            }
+            else
+            {
+                SaveRecord(); //На случай, если игрок психанет, когда програет
+            }
+        }
     }
 
     private void LoadGameProgressData()
@@ -79,15 +104,30 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void Init()
     {
-        player.OnGameOver += OnGameOver;
+        gameOverController.OnGameOver += OnGameOver;
 
+        pauseController.AllowPausing();
         pauseController.OnChangePauseState += OnChangePauseState;
+        pauseMenuController.Init();
+        pauseMenuController.OnClickLoadMainMenuScene += () => 
+        {
+            if (player.IsDead == false)
+            {
+                SaveGameProgress(LoadMainMenuScene);
+            }
+        };
 
         uiCoordinator.Init();
         uiCoordinator.InjectPauseMenuPresenter(pauseMenuController);
         uiCoordinator.InjectScorePresenter(scoreController);
+        uiCoordinator.InjectGameOverPresenter(gameOverController);
+        uiCoordinator.InjectSettingsControllerPresenter(settingsController);
 
         difficultyController.OnChangeDifficultyValue += OnChangeDifficultyValue;
+
+        gameOverController.Init(player);
+        gameOverController.OnReplay += ReloadGameScene;
+        gameOverController.OnExitToMainMenu += LoadMainMenuScene;
 
         backgroundController.Init();
         obstacleSpawner.Init();
@@ -100,9 +140,23 @@ public class GameSceneBootstrap : MonoBehaviour
         uiCoordinator.Dispose();
 
         pauseController.OnChangePauseState -= OnChangePauseState;
+        pauseMenuController.OnClickLoadMainMenuScene -= () =>
+        {
+            if (player.IsDead == false)
+            {
+                SaveGameProgress(LoadMainMenuScene);
+            }
+        };
+        pauseMenuController.Dispose();
+
+        gameOverController.Dispose();
+        gameOverController.OnReplay -= ReloadGameScene;
+        gameOverController.OnExitToMainMenu -= LoadMainMenuScene;
 
         difficultyController.Dispose();
         difficultyController.OnChangeDifficultyValue -= OnChangeDifficultyValue;
+
+        settingsController.Dispose();
 
         backgroundController.Dispose();
         obstacleSpawner.Dispose();
@@ -164,23 +218,23 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void OnGameOver()
     {
+        pauseController.DisallowPausing();
         OnPause();
 
         SaveRecord();
-
-        uiCoordinator.ShowGameOverPanel();
     }
 
-    public void SaveGameProgress() // Его надо как-то вызывать
+    public void SaveGameProgress(Action onSuccess = null)
     {
         GameProgressData data = new GameProgressData();
         data.currentScore = scoreController.Score;
         data.currentDifficulty = difficultyController.CurrentDifficultyValue;
+        data.recordScore = gameProgressPersistence.GetCurrentData().recordScore;
 
-        gameProgressPersistence.SaveData(data);
+        gameProgressPersistence.SaveData(data, onSuccess);
     }
 
-    private void SaveRecord()
+    private void SaveRecord(Action onSuccess = null)
     {
         int currentScore = scoreController.Score;
         int currentRecord = gameProgressPersistence.GetCurrentData().recordScore;
@@ -195,16 +249,16 @@ public class GameSceneBootstrap : MonoBehaviour
             data.recordScore = currentRecord;
         }
 
-        gameProgressPersistence.SaveData(data);
+        gameProgressPersistence.SaveData(data, onSuccess);
     }
 
     private void ReloadGameScene()
     {
-        SceneManager.LoadScene("GameScene"); // Фу фу фу
+        SceneManager.LoadScene("GameScene");
     }
 
-    private void LoadMeinMenuScene()
+    private void LoadMainMenuScene()
     {
-        SceneManager.LoadScene("MainMenuScene"); // Фу фу фу
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

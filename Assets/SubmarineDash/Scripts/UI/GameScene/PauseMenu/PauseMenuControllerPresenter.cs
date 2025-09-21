@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PauseMenuControllerPresenter : MonoBehaviour
 {
+    public event Action<bool> OnChangeShowState;
     public event Action OnShowSettingsPanel;
 
     [Header("Components")]
@@ -25,8 +26,6 @@ public class PauseMenuControllerPresenter : MonoBehaviour
         model = pauseController;
         showController.ImmediatelyHide();
 
-        if (model == null) return;
-
         model.OnChangePauseState += OnChangePauseState;
 
         resumeButton.onClick.AddListener(Resume);
@@ -36,8 +35,6 @@ public class PauseMenuControllerPresenter : MonoBehaviour
 
     public void Dispose()
     {
-        if (model == null) return;
-
         model.OnChangePauseState -= OnChangePauseState;
 
         resumeButton.onClick.RemoveListener(Resume);
@@ -51,6 +48,8 @@ public class PauseMenuControllerPresenter : MonoBehaviour
 
         showController.Show();
         model.Pause();
+
+        OnChangeShowState?.Invoke(true);
     }
 
     public void Hide()
@@ -59,6 +58,8 @@ public class PauseMenuControllerPresenter : MonoBehaviour
 
         showController.Hide();
         model.Resume();
+
+        OnChangeShowState?.Invoke(false);
     }
 
     private void Resume()

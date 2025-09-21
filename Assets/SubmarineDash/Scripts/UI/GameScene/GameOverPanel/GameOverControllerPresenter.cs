@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameOverPanelPresenter : MonoBehaviour
+public class GameOverControllerPresenter : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField]
@@ -12,8 +11,13 @@ public class GameOverPanelPresenter : MonoBehaviour
     [SerializeField]
     private Button exitToMainMenuButton;
 
-    public void Init()
+    private GameOverController model;
+
+    public void Init(GameOverController gameOverController)
     {
+        model = gameOverController;
+        model.OnGameOver += Show;
+
         showController.ImmediatelyHide();
 
         replayButton.onClick.AddListener(Replay);
@@ -22,6 +26,11 @@ public class GameOverPanelPresenter : MonoBehaviour
 
     public void Dispose()
     {
+        if(model != null)
+        {
+            model.OnGameOver -= Show;
+        }
+
         replayButton.onClick.RemoveListener(Replay);
         exitToMainMenuButton.onClick.RemoveListener(ExitToMainMenu);
     }
@@ -33,11 +42,15 @@ public class GameOverPanelPresenter : MonoBehaviour
 
     public void Replay()
     {
-        SceneManager.LoadScene("GameScene"); //TODO: Вынести в модель
+        if (model == null) return;
+
+        model.Replay();
     }
 
     public void ExitToMainMenu()
     {
-        SceneManager.LoadScene("MainMenuScene"); //TODO: Вынести в модель
+        if (model == null) return;
+
+        model.ExitToMainMenu();
     }
 }

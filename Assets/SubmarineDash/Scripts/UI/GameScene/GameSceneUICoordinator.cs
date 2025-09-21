@@ -12,7 +12,7 @@ public class GameSceneUICoordinator : MonoBehaviour
     [SerializeField]
     private ScoreControllerPresenter scoreControllerPresenter;
     [SerializeField]
-    private GameOverPanelPresenter gameOverPanelPresenter;
+    private GameOverControllerPresenter gameOverControllerPresenter;
 
     [Header("View")]
     [SerializeField]
@@ -25,7 +25,6 @@ public class GameSceneUICoordinator : MonoBehaviour
         pauseButton.onClick.AddListener(OnClickPauseButton);
 
         InitCountdownView();
-        InitGameOverPresenter();
     }
 
     public void Dispose()
@@ -33,9 +32,12 @@ public class GameSceneUICoordinator : MonoBehaviour
         pauseButton.onClick.RemoveListener(OnClickPauseButton);
 
         pauseMenuPresenter.Dispose();
+        pauseMenuPresenter.OnChangeShowState -= OnChangePauseMenuShowState;
+        pauseMenuPresenter.OnShowSettingsPanel -= ShowSettingsPanel;
+
         settingsControllerPresenter.Dispose();
         scoreControllerPresenter.Dispose();
-        gameOverPanelPresenter.Dispose();
+        gameOverControllerPresenter.Dispose();
 
         countdownView.Dispose();
     }
@@ -43,6 +45,8 @@ public class GameSceneUICoordinator : MonoBehaviour
     public void InjectPauseMenuPresenter(PauseMenuController pauseController)
     {
         pauseMenuPresenter.Init(pauseController);
+        pauseMenuPresenter.OnChangeShowState += OnChangePauseMenuShowState;
+        pauseMenuPresenter.OnShowSettingsPanel += ShowSettingsPanel;
     }
 
     public void InjectScorePresenter(ScoreController scoreController)
@@ -50,19 +54,14 @@ public class GameSceneUICoordinator : MonoBehaviour
         scoreControllerPresenter.Init(scoreController);
     }
 
-    public void InitSettingsControllerPresenter(SettingsController settingsController)
+    public void InjectSettingsControllerPresenter(SettingsController settingsController)
     {
         settingsControllerPresenter.Init(settingsController);
     }
 
-    private void InitCountdownView()
+    public void InjectGameOverPresenter(GameOverController gameOverController)
     {
-        countdownView.Init();
-    }
-
-    private void InitGameOverPresenter()
-    {
-        gameOverPanelPresenter.Init();
+        gameOverControllerPresenter.Init(gameOverController);
     }
 
     public void StartCountdown(Action OnTimerComplited)
@@ -75,13 +74,29 @@ public class GameSceneUICoordinator : MonoBehaviour
         countdownView.StopCountdown();
     }
 
-    public void ShowGameOverPanel()
+    private void InitCountdownView()
     {
-        gameOverPanelPresenter.Show();
+        countdownView.Init();
     }
 
     private void OnClickPauseButton()
     {
         pauseMenuPresenter.Show();
+    }
+
+    private void OnChangePauseMenuShowState(bool isState)
+    {
+        if (isState == false)
+        {
+            if (settingsControllerPresenter.IsShown)
+            {
+                settingsControllerPresenter.ClosePanel();
+            }
+        }
+    }
+
+    private void ShowSettingsPanel()
+    {
+        settingsControllerPresenter.Show();
     }
 }

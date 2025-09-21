@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +21,8 @@ public class SettingsControllerPresenter : MonoBehaviour
     private SettingsController model;
 
     private CompositeDisposable disposables = new CompositeDisposable();
+
+    public bool IsShown => showController.IsShown;
 
     public void Init(SettingsController settingsController)
     {
@@ -71,11 +72,18 @@ public class SettingsControllerPresenter : MonoBehaviour
         showController.Hide();
     }
 
+    public void ClosePanel()
+    {
+        model.SaveSettings();
+
+        Hide();
+    }
+
     private void OnChangeMusicVolumeSliderValue(float value)
     {
         if (model != null)
         {
-            model.ChangeMusicSoundVolume((float)Math.Round(value / 100f, 2));
+            model.ChangeMusicSoundVolume(value);
         }
     }
 
@@ -83,14 +91,12 @@ public class SettingsControllerPresenter : MonoBehaviour
     {
         if (model != null)
         {
-            model.ChangeEFXSoundVolume((float)Math.Round(value / 100f, 2));
+            model.ChangeEFXSoundVolume(value);
         }
     }
 
     private void OnClickBackButton()
     {
-        model.SaveSettings();
-
-        Hide();
+        ClosePanel();
     }
 }

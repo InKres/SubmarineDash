@@ -11,7 +11,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField]
     private PauseController pauseController;
 
-    public bool IsPause => pauseController.GameIsPaused;
+    public bool IsPause => pauseController.IsGameIsPaused;
 
     public void Init()
     {

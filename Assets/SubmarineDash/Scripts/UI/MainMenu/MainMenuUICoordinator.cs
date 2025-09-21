@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuUICoordinator : MonoBehaviour
 {
+    public event Action OnClickLoadGameScene;
+
     [Header("Presenters")]
     [SerializeField]
     private ScoreControllerPresenter scoreControllerPresenter;
@@ -12,26 +15,30 @@ public class MainMenuUICoordinator : MonoBehaviour
     [Header("View components")]
     [SerializeField]
     private Button settingsButton;
+    [SerializeField]
+    private Button playButton;
 
     public void Init()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
+        playButton.onClick.AddListener(OnClickPlayButton);
     }
 
     public void Dispose()
     {
         settingsButton.onClick.RemoveListener(OpenSettingsPanel);
+        playButton.onClick.RemoveListener(OnClickPlayButton);
 
         scoreControllerPresenter.Dispose();
         settingsControllerPresenter.Dispose();
     }
 
-    public void InitScoreControllerPresenter(ScoreController scoreController)
+    public void InjectScoreControllerPresenter(ScoreController scoreController)
     {
         scoreControllerPresenter.Init(scoreController);
     }
 
-    public void InitSettingsControllerPresenter(SettingsController settingsController)
+    public void InjectSettingsControllerPresenter(SettingsController settingsController)
     {
         settingsControllerPresenter.Init(settingsController);
     }
@@ -39,5 +46,10 @@ public class MainMenuUICoordinator : MonoBehaviour
     private void OpenSettingsPanel()
     {
         settingsControllerPresenter.Show();
+    }
+
+    private void OnClickPlayButton()
+    {
+        OnClickLoadGameScene?.Invoke();
     }
 }

@@ -42,9 +42,13 @@ public class CanvasGroupShowController : MonoBehaviour
     {
         StopAllCoroutines();
         if (this.isActiveAndEnabled)
+        {
             StartCoroutine(ShowCoroutine());
+        }
         else
+        {
             ImmediatelyShow();
+        }
     }
 
     public void Show(float speed)

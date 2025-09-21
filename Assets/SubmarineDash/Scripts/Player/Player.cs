@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private LayerMask obstacleLayer;
 
+    public bool IsDead { get; private set; }
+
     public void StartParticle()
     {
         bubbleParticle.Play();
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour
         if (IsInLayerMask(collision.gameObject.layer, obstacleLayer))
         {
             OnGameOver?.Invoke();
+
+            IsDead = true;
         }
     }
 

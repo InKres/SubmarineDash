@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
@@ -24,18 +23,21 @@ public class AudioController : MonoBehaviour
 
     public void Dispose()
     {
-        musicAudioSource.Stop();
-        musicAudioSource = null;
+        if (musicAudioSource != null)
+        {
+            musicAudioSource.Stop();
+            musicAudioSource = null;
+        }
     }
 
     public void ChangeMusicSoundVolume(float value)
     {
-        musicAudioSource.volume = Math.Clamp(value, 0f, 1f);
+        musicAudioSource.volume = GetCorrectVolumeValue(value);
     }
 
     public void ChangeEFXSoundVolume(float value)
     {
-        efxAudioSource.volume = Math.Clamp(value, 0f, 1f);
+        efxAudioSource.volume = GetCorrectVolumeValue(value);
     }
 
     public void PlayBackgroundSound()
@@ -57,5 +59,19 @@ public class AudioController : MonoBehaviour
 
         efxAudioSource.clip = audioClip;
         efxAudioSource.Play();
+    }
+
+    private float GetCorrectVolumeValue(float value)
+    {
+        float correctValue = Mathf.Clamp(value, 0, 100f);
+
+        if (correctValue == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return correctValue / 100f;
+        }
     }
 }

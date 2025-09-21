@@ -5,34 +5,55 @@ public class PauseController : MonoBehaviour
 {
     public event Action<bool> OnChangePauseState;
 
-    public bool GameIsPaused { get; private set; }
+    public bool IsGameIsPaused { get; private set; }
+
+    public bool isCanPause;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (isCanPause)
         {
-            if (GameIsPaused)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                if (IsGameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
 
     public void Resume()
     {
-        GameIsPaused = false;
+        if (IsGameIsPaused == true)
+        {
+            IsGameIsPaused = false;
 
-        OnChangePauseState?.Invoke(GameIsPaused);
+            OnChangePauseState?.Invoke(IsGameIsPaused);
+        }
     }
 
     public void Pause()
     {
-        GameIsPaused = true;
+        if (IsGameIsPaused == false)
+        {
+            IsGameIsPaused = true;
 
-        OnChangePauseState?.Invoke(GameIsPaused);
+            OnChangePauseState?.Invoke(IsGameIsPaused);
+        }
+    }
+
+    public void AllowPausing()
+    {
+        isCanPause = true;
+    }
+
+    public void DisallowPausing()
+    {
+        isCanPause = false;
     }
 }

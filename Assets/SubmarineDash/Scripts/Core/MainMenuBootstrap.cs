@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuBootstrap : MonoBehaviour
 {
@@ -83,17 +84,25 @@ public class MainMenuBootstrap : MonoBehaviour
         playerAnimator.StartAnimation();
 
         uiCoordinator.Init();
-        uiCoordinator.InitScoreControllerPresenter(scoreController);
-
-        uiCoordinator.InitSettingsControllerPresenter(settingsController);
+        uiCoordinator.InjectScoreControllerPresenter(scoreController);
+        uiCoordinator.InjectSettingsControllerPresenter(settingsController);
+        uiCoordinator.OnClickLoadGameScene += OnClickLoadGameScene;
     }
 
     private void Dispose()
     {
-        uiCoordinator.Dispose();
-
         parallaxBackgroundController.Dispose();
 
         playerAnimator.Dispose();
+
+        uiCoordinator.OnClickLoadGameScene -= OnClickLoadGameScene;
+        uiCoordinator.Dispose();
+
+        settingsController.Dispose();
+    }
+
+    private void OnClickLoadGameScene()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }

@@ -255,7 +255,6 @@ GameObject:
   - component: {fileID: 118747234}
   - component: {fileID: 118747233}
   - component: {fileID: 118747232}
-  - component: {fileID: 118747235}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -295,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -325,7 +324,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 118747233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1802320264}
+        m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 6c4dda4abd3aa01499c9d4849588aaf7, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &118747233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,18 +375,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118747230}
   m_CullTransparentMesh: 1
---- !u!114 &118747235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118747230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3f0fc42240c99c439826c2a91685533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &146509370
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -457,7 +456,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 146509373}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1802320264}
+        m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 6c4dda4abd3aa01499c9d4849588aaf7, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &146509373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +879,7 @@ Transform:
   m_GameObject: {fileID: 525299490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1449.1992, y: 999.9, z: -7.2047143}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1305,7 +1316,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2801,8 +2812,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802320262}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -179.57153, y: -228.74615, z: 3.9028263}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2824,7 +2835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicAudioSource: {fileID: 715862981}
   efxAudioSource: {fileID: 738753106}
-  backgroundAudioClip: {fileID: 0}
+  backgroundAudioClip: {fileID: 8300000, guid: baad4e38e9dfb8c44a498e9fd62aa2d4, type: 3}
 --- !u!1 &1830590588
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,6 +3257,7 @@ MonoBehaviour:
   scoreControllerPresenter: {fileID: 1870723142}
   settingsControllerPresenter: {fileID: 936485839}
   settingsButton: {fileID: 146509372}
+  playButton: {fileID: 118747232}
 --- !u!1 &1978847481
 GameObject:
   m_ObjectHideFlags: 0
@@ -3318,7 +3330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3348,7 +3360,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1978847485}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1802320264}
+        m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 6c4dda4abd3aa01499c9d4849588aaf7, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1978847485
 MonoBehaviour:
   m_ObjectHideFlags: 0
