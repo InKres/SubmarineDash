@@ -1,7 +1,3 @@
-using System;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class GameSceneBootstrap : MonoBehaviour
 {
     [Header("Bootstrap Components")]
@@ -109,7 +105,7 @@ public class GameSceneBootstrap : MonoBehaviour
         pauseController.AllowPausing();
         pauseController.OnChangePauseState += OnChangePauseState;
         pauseMenuController.Init();
-        pauseMenuController.OnClickLoadMainMenuScene += () => 
+        pauseMenuController.OnClickLoadMainMenuScene += () =>
         {
             if (player.IsDead == false)
             {
@@ -229,7 +225,15 @@ public class GameSceneBootstrap : MonoBehaviour
         GameProgressData data = new GameProgressData();
         data.currentScore = scoreController.Score;
         data.currentDifficulty = difficultyController.CurrentDifficultyValue;
-        data.recordScore = gameProgressPersistence.GetCurrentData().recordScore;
+
+        if (gameProgressPersistence.GetCurrentData() != null)
+        {
+            data.recordScore = gameProgressPersistence.GetCurrentData().recordScore;
+        }
+        else
+        {
+            data.recordScore = 0;
+        }
 
         gameProgressPersistence.SaveData(data, onSuccess);
     }
