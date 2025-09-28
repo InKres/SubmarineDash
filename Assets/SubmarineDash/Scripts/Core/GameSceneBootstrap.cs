@@ -1,3 +1,7 @@
+using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class GameSceneBootstrap : MonoBehaviour
 {
     [Header("Bootstrap Components")]
@@ -83,10 +87,8 @@ public class GameSceneBootstrap : MonoBehaviour
         gameProgressPersistence.LoadData(data =>
         {
             scoreController.Init(data.currentScore);
-            Debug.Log($"Current score = {data.currentScore}", this);
 
             difficultyController.Init(data.currentDifficulty);
-            Debug.Log($"Current difficulty = {data.currentDifficulty}", this);
         });
     }
 

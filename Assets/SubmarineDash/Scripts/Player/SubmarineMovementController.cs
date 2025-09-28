@@ -23,6 +23,7 @@ public class SubmarineMovementController : MonoBehaviour
 
     private float currentVerticalVelocity;
     private float targetRotation;
+    private float currentRotation;
 
     private bool isDiving;
 
@@ -48,7 +49,6 @@ public class SubmarineMovementController : MonoBehaviour
     public void EnableAbilityToMove()
     {
         isCanMove = true;
-
         rb.simulated = true;
     }
 
@@ -57,6 +57,7 @@ public class SubmarineMovementController : MonoBehaviour
         isCanMove = false;
 
         rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
         rb.simulated = false;
     }
 
@@ -73,17 +74,20 @@ public class SubmarineMovementController : MonoBehaviour
             maxDelta
         );
 
-        rb.velocity = new Vector2(rb.velocity.x, currentVerticalVelocity);
+        Vector2 newPosition = rb.position + new Vector2(0f, currentVerticalVelocity) * Time.fixedDeltaTime;
+        rb.MovePosition(newPosition);
     }
 
     private void HandleTilt()
     {
         targetRotation = Mathf.Clamp(currentVerticalVelocity * maxTiltAngle / diveSpeed, -maxTiltAngle, maxTiltAngle);
 
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            Quaternion.Euler(0, 0, targetRotation),
+        currentRotation = Mathf.Lerp(
+            currentRotation,
+            targetRotation,
             tiltSpeed * Time.fixedDeltaTime
         );
+
+        rb.MoveRotation(currentRotation);
     }
 }
