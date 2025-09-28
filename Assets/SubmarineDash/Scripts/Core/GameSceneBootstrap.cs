@@ -63,7 +63,7 @@ public class GameSceneBootstrap : MonoBehaviour
         }
         else
         {
-            SaveRecord(); //На случай, если игрок психанет, когда програет и решит закрыть игру
+            SaveRecord();
         }
     }
 
@@ -73,11 +73,11 @@ public class GameSceneBootstrap : MonoBehaviour
         {
             if (player.IsDead == false)
             {
-                SaveGameProgress(); // На всякий случай
+                SaveGameProgress();
             }
             else
             {
-                SaveRecord(); //На случай, если игрок психанет, когда програет
+                SaveRecord();
             }
         }
     }
@@ -133,7 +133,7 @@ public class GameSceneBootstrap : MonoBehaviour
 
     private void Dispose()
     {
-        player.OnGameOver -= OnGameOver;
+        gameOverController.OnGameOver -= OnGameOver;
 
         uiCoordinator.Dispose();
 

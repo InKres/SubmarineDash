@@ -5215,6 +5215,10 @@ PrefabInstance:
       propertyPath: m_BodyType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7629322553215339663, guid: ee8d5a980c5d37449ace8935d6fa7ff9, type: 3}
+      propertyPath: m_UseFullKinematicContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8366388073713616676, guid: ee8d5a980c5d37449ace8935d6fa7ff9, type: 3}
       propertyPath: m_Name
       value: Player
