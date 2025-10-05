@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class MainMenuUICoordinator : MonoBehaviour
 {
     public event Action OnClickLoadGameScene;
+    public event Action OnExitGame;
 
     [Header("Presenters")]
     [SerializeField]
@@ -17,17 +18,21 @@ public class MainMenuUICoordinator : MonoBehaviour
     private Button settingsButton;
     [SerializeField]
     private Button playButton;
+    [SerializeField]
+    private Button exitButton;
 
     public void Init()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
         playButton.onClick.AddListener(OnClickPlayButton);
+        exitButton.onClick.AddListener(OnClickExitButton);
     }
 
     public void Dispose()
     {
         settingsButton.onClick.RemoveListener(OpenSettingsPanel);
         playButton.onClick.RemoveListener(OnClickPlayButton);
+        exitButton.onClick.RemoveListener(OnClickExitButton);
 
         scoreControllerPresenter.Dispose();
         settingsControllerPresenter.Dispose();
@@ -51,5 +56,10 @@ public class MainMenuUICoordinator : MonoBehaviour
     private void OnClickPlayButton()
     {
         OnClickLoadGameScene?.Invoke();
+    }
+
+    private void OnClickExitButton()
+    {
+        OnExitGame?.Invoke();
     }
 }

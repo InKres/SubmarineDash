@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -87,6 +88,7 @@ public class MainMenuBootstrap : MonoBehaviour
         uiCoordinator.InjectScoreControllerPresenter(scoreController);
         uiCoordinator.InjectSettingsControllerPresenter(settingsController);
         uiCoordinator.OnClickLoadGameScene += OnClickLoadGameScene;
+        uiCoordinator.OnExitGame += ExitGame;
     }
 
     private void Dispose()
@@ -96,6 +98,7 @@ public class MainMenuBootstrap : MonoBehaviour
         playerAnimator.Dispose();
 
         uiCoordinator.OnClickLoadGameScene -= OnClickLoadGameScene;
+        uiCoordinator.OnExitGame -= ExitGame;
         uiCoordinator.Dispose();
 
         settingsController.Dispose();
@@ -104,5 +107,10 @@ public class MainMenuBootstrap : MonoBehaviour
     private void OnClickLoadGameScene()
     {
         SceneManager.LoadScene("GameScene");
+    }
+
+    private void ExitGame()
+    {
+        Application.Quit();
     }
 }
